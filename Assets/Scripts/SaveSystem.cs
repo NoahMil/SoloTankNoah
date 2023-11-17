@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
 {
-    public string saveName = "SaveData_";
+    /*public string saveName = "SaveData_";
     [Range(0, 10)] public int saveDataIndex = 0;
 
     public void SaveData(string dataToSave)
@@ -26,7 +26,7 @@ public class SaveSystem : MonoBehaviour
         }
         return data;
     }
-    
+
 
     private bool WriteToFile(string name, string content)
     {
@@ -59,36 +59,36 @@ public class SaveSystem : MonoBehaviour
         }
 
         return false;
-    }
-}
-/*public static void SaveCharacter(Tank character, string filePath)
-{
-    BinaryFormatter formatter = new BinaryFormatter();
-    FileStream stream = new FileStream(filePath, FileMode.Create);
-
-    CharacterMemento memento = character.SaveToMemento();
-
-    formatter.Serialize(stream, memento);
-    stream.Close();
-}
-
-public static void LoadCharacter(Tank character, string filePath)
-{
-    if (File.Exists(filePath))
+    }*/
+    public static void SaveCharacter(Tank character, string filePath)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(filePath, FileMode.Open);
+        FileStream stream = new FileStream(filePath, FileMode.Create);
 
-        CharacterMemento memento = (CharacterMemento)formatter.Deserialize(stream);
+        CharacterMemento memento = character.SaveToMemento();
+
+        formatter.Serialize(stream, memento);
         stream.Close();
+    }
 
-        character.RestoreFromMemento(memento);
-    }
-    else
+    public static void LoadCharacter(Tank character, string filePath)
     {
-        Debug.LogError("Save file not found");
+        if (File.Exists(filePath))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(filePath, FileMode.Open);
+
+            CharacterMemento memento = (CharacterMemento)formatter.Deserialize(stream);
+            stream.Close();
+
+            character.RestoreFromMemento(memento);
+        }
+        else
+        {
+            Debug.LogError("Save file not found");
+        }
     }
-    */
+}
 
 
 

@@ -13,7 +13,7 @@ public class Tank : Base_Controller
     [SerializeField] private float BoostDuration = 0.1f;
     [SerializeField] private bool IsBoosted = false;
 
-    public Vector3 _position { get; set; }
+    public Vector3 Position { get; set; }
 
     public delegate void TankEvents();
 
@@ -33,7 +33,7 @@ public class Tank : Base_Controller
     {
         AimToTarget();
 
-        _position = transform.position;
+        Position = transform.position;
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
@@ -68,8 +68,6 @@ public class Tank : Base_Controller
         {
             LoadGame();
         }
-        
-        
     }
 
     private void AimToTarget()
@@ -124,10 +122,12 @@ public class Tank : Base_Controller
 
     public void SaveCharacter()
     {
+        SaveSystem.SaveCharacter(this, "save/file.sav");
     }
 
     private void LoadGame()
     {
+        SaveSystem.LoadCharacter(this, "save/file.sav");
     }
 }
 
@@ -143,4 +143,3 @@ public class CharacterMemento
         Health = health;
     }
 }
-

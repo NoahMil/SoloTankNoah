@@ -6,13 +6,13 @@ using UnityEngine;
 public class Turret : Base_Controller
 {
 
-    [SerializeField] private GameObject TurretTarget;
-    [SerializeField] private float DetectionRange = 10f;
+    [SerializeField] private GameObject _turretTarget;
+    [SerializeField] private float _detectionRange = 10f;
     
 
     private void Update()
     {
-        RotateToTarget(TurretTarget.transform.position);
+        RotateToTarget(_turretTarget.transform.position);
         if (CheckTargetDistance())
         {
             Fire();
@@ -22,7 +22,7 @@ public class Turret : Base_Controller
     private bool CheckTargetDistance()
     {
         RaycastHit hit;
-        if (Physics.Raycast(BulletSpawnPosition.position, BulletSpawnPosition.up, out hit, DetectionRange))
+        if (Physics.Raycast(BulletSpawnPosition.position, BulletSpawnPosition.up, out hit, _detectionRange))
         {
             if (hit.collider.gameObject.CompareTag("Player"))
             {
