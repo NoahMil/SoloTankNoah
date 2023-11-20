@@ -26,7 +26,6 @@ public class Tank : Base_Controller
             _playerData.LifePoint = _playerData.MaxLifePoint;
         }
         OnUpdateHealth?.Invoke();
-
     }
 
     private void Update()

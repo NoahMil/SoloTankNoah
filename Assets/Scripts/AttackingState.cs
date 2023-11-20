@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class AttackingState : BaseState
 {
     public AttackingState(MonsterAI monsterAI) : base(monsterAI) { }
@@ -24,5 +26,15 @@ public class AttackingState : BaseState
     }
     public override void Exit() {
         // Je me balade, lalala
+    }
+
+    public override void StateOnTriggerEnter(Collider other)
+    {
+        return;
+    }
+
+    public override void StateOnTriggerExit(Collider other)
+    {
+        return;
     }
 }
