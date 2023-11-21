@@ -6,14 +6,14 @@ using UnityEngine.Serialization;
 
 public class BaseController : MonoBehaviour
 {
-    [FormerlySerializedAs("AppData")] [SerializeField] protected AppDatas appData;
-    [FormerlySerializedAs("_playerDatas")] [SerializeField] private PlayerDatas playerDatas;
-    [FormerlySerializedAs("LifePoint")] [SerializeField] protected int lifePoint;
-    [FormerlySerializedAs("BulletPrefab")] [SerializeField] private GameObject bulletPrefab;
-    [FormerlySerializedAs("BulletSpawnPosition")] [SerializeField] protected internal Transform bulletSpawnPosition;
-    [FormerlySerializedAs("TurretHead")] [SerializeField] private Transform turretHead;
-    [SerializeField] private Transform temp;
-     [FormerlySerializedAs("IsAlreadyFiring")] public bool isAlreadyFiring;
+        [SerializeField] protected AppDatas appData;
+        [SerializeField] private PlayerDatas playerDatas;
+        [SerializeField] protected int lifePoint;
+        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] protected internal Transform bulletSpawnPosition;
+        [SerializeField] private Transform turretHead;
+        [SerializeField] private Transform temp;
+        public bool isAlreadyFiring;
 
 
 
@@ -23,7 +23,6 @@ public class BaseController : MonoBehaviour
         {
             isAlreadyFiring = true;
             StartCoroutine(FireDelay());
-            
         }
     }
 

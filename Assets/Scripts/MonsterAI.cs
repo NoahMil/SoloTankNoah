@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+
 
 public class MonsterAI : MonoBehaviour {
     
@@ -12,8 +14,11 @@ public class MonsterAI : MonoBehaviour {
     public List<GameObject> playersInSightRange = new List<GameObject>();
 
     [Header("Parameters")]
-    [SerializeField] private bool rallyNearestWaypoint;
-    [SerializeField] private float fireCooldown;
+    private bool rallyNearestWaypoint;
+    private float fireCooldown;
+    private bool _isAlreadyFiring;
+
+    
     
     private Transform _nearestTarget;
     private bool _targetInRange;
@@ -77,14 +82,18 @@ public class MonsterAI : MonoBehaviour {
         playersInAttackRange.Remove(other.gameObject);
     }
     
-    public void Fire() {
-        if (_timeSinceLastShot < fireCooldown) return;
-        Invoke(nameof(FireDelay), 2);
-        _timeSinceLastShot = 0;
+    public void Fire()
+    {
+        if (!_isAlreadyFiring)
+        {
+            _isAlreadyFiring = true;
+            Invoke(nameof(FireDelay), 2f);
+        }
     }
-
-    private void FireDelay() {
+    private void FireDelay()
+    {
         Instantiate(bulletPrefab, bulletSpawnPosition.position, bulletSpawnPosition.rotation);   
+        _isAlreadyFiring = false;
     }
     
     public void RotateToTarget(Vector3 targetPos)

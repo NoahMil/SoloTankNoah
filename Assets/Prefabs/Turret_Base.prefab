@@ -186,6 +186,7 @@ MonoBehaviour:
   playersInSightRange: []
   rallyNearestWaypoint: 0
   fireCooldown: 0
+  _isAlreadyFiring: 0
 --- !u!195 &1871580739
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -195,7 +196,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8071371980375409776}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.4
+  m_Radius: 0.3
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -449,7 +450,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 2.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8507967687941952719
 MonoBehaviour:
@@ -540,7 +541,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3.5
+  m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3849224552148450717
 MonoBehaviour:
