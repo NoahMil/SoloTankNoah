@@ -3,15 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Tank : Base_Controller
+public class Tank : BaseController
 {
-    [SerializeField] private PlayerDatas _playerData;
-    [SerializeField] private float Speed = 0.1f;
-    [SerializeField] private float RotationSpeed = 0.1f;
-    [SerializeField] private float BoostSpeed = 0.1f;
-    [SerializeField] private float BoostDuration = 0.1f;
-    [SerializeField] private bool IsBoosted = false;
+    [SerializeField] private PlayerDatas playerData;
+    [SerializeField] private float speed = 0.1f;
+    [SerializeField] private float rotationSpeed = 0.1f;
+    [SerializeField] private float boostSpeed = 0.1f;
+    [SerializeField] private float boostDuration = 0.1f;
+    [SerializeField] private bool isBoosted = false;
 
     public Vector3 Position { get; set; }
 
@@ -21,37 +22,37 @@ public class Tank : Base_Controller
 
     private void Start()
     {
-        if (AppData.InFirstScene)
+        if (appData.inFirstScene)
         {
-            _playerData.LifePoint = _playerData.MaxLifePoint;
+            playerData.lifePoint = playerData.maxLifePoint;
         }
         OnUpdateHealth?.Invoke();
     }
 
     private void Update()
     {
-        AimToTarget();
+       // AimToTarget();
 
         Position = transform.position;
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            transform.Translate(0f, 0f, Speed * Time.deltaTime);
+            transform.Translate(0f, 0f, speed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            transform.Translate(0f, 0f, -Speed * Time.deltaTime);
+            transform.Translate(0f, 0f, -speed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Rotate(0f, RotationSpeed * Time.deltaTime, 0f);
+            transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Rotate(0f, -RotationSpeed * Time.deltaTime, 0f);
+            transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
         }
         if (Input.GetMouseButton(0))
         {
@@ -69,6 +70,7 @@ public class Tank : Base_Controller
         }
     }
 
+    /*
     private void AimToTarget()
     {
         Ray tempRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -78,30 +80,31 @@ public class Tank : Base_Controller
             RotateToTarget(hit.point);
         }
     }
+    */
 
-    [SerializeField] private GameObject TurretTarget;
+    [FormerlySerializedAs("TurretTarget")] [SerializeField] private GameObject turretTarget;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("BoostSpeed") && !IsBoosted)
+        if (other.gameObject.CompareTag("BoostSpeed") && !isBoosted)
         {
-            IsBoosted = true;
+            isBoosted = true;
             StartCoroutine(Boost());
         }
     }
 
     private IEnumerator Boost()
     {
-        float tempSpeed = Speed;
-        Speed = BoostSpeed;
-        yield return new WaitForSeconds(BoostDuration);
-        Speed = tempSpeed;
-        IsBoosted = false;
+        float tempSpeed = speed;
+        speed = boostSpeed;
+        yield return new WaitForSeconds(boostDuration);
+        speed = tempSpeed;
+        isBoosted = false;
     }
 
     public override void ApplyDamage(int damage)
     {
-        _playerData.LifePoint -= damage;
-        if (_playerData.LifePoint <= 0)
+        playerData.lifePoint -= damage;
+        if (playerData.lifePoint <= 0)
         {
             Destruction();
         }
@@ -110,13 +113,13 @@ public class Tank : Base_Controller
 
     public CharacterMemento SaveToMemento()
     {
-        return new CharacterMemento(transform.position, _playerData.LifePoint);
+        return new CharacterMemento(transform.position, playerData.lifePoint);
     }
 
     public void RestoreFromMemento(CharacterMemento memento)
     {
-        transform.position = memento.Position;
-        _playerData.LifePoint = memento.Health;
+        transform.position = memento.position;
+        playerData.lifePoint = memento.health;
     }
 
     public void SaveCharacter()
@@ -133,12 +136,12 @@ public class Tank : Base_Controller
 [Serializable]
 public class CharacterMemento
 {
-    public Vector3 Position;
-    public float Health;
+    public Vector3 position;
+    public float health;
 
     public CharacterMemento(Vector3 position, float health)
     {
-        Position = position;
-        Health = health;
+        this.position = position;
+        this.health = health;
     }
 }

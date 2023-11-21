@@ -2,46 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SceneTemplate;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Base_Controller : MonoBehaviour
+public class BaseController : MonoBehaviour
 {
-    [SerializeField] protected AppDatas AppData;
-    [SerializeField] private PlayerDatas _playerDatas;
-    [SerializeField] protected int LifePoint;
-    [SerializeField] private GameObject BulletPrefab;
-    [SerializeField] protected Transform BulletSpawnPosition;
-    [SerializeField] private Transform TurretHead;
+    [FormerlySerializedAs("AppData")] [SerializeField] protected AppDatas appData;
+    [FormerlySerializedAs("_playerDatas")] [SerializeField] private PlayerDatas playerDatas;
+    [FormerlySerializedAs("LifePoint")] [SerializeField] protected int lifePoint;
+    [FormerlySerializedAs("BulletPrefab")] [SerializeField] private GameObject bulletPrefab;
+    [FormerlySerializedAs("BulletSpawnPosition")] [SerializeField] protected internal Transform bulletSpawnPosition;
+    [FormerlySerializedAs("TurretHead")] [SerializeField] private Transform turretHead;
     [SerializeField] private Transform temp;
-    [SerializeField] private bool IsAlreadyFiring;
+     [FormerlySerializedAs("IsAlreadyFiring")] public bool isAlreadyFiring;
 
 
 
     protected void Fire()
     {
-        if (!IsAlreadyFiring)
+        if (!isAlreadyFiring)
         {
-            IsAlreadyFiring = true;
-            StartCoroutine(fireDelay());
+            isAlreadyFiring = true;
+            StartCoroutine(FireDelay());
+            
         }
     }
 
-    IEnumerator fireDelay()
+    IEnumerator FireDelay()
     {
-        Instantiate(BulletPrefab, BulletSpawnPosition.position, BulletSpawnPosition.rotation);   
+        Instantiate(bulletPrefab, bulletSpawnPosition.position, bulletSpawnPosition.rotation);   
         yield return new WaitForSeconds(2f);
-        IsAlreadyFiring = false;
+        isAlreadyFiring = false;
     }
     
     protected void RotateToTarget(Vector3 targetPos)
     {
-        temp.position = new Vector3(targetPos.x, TurretHead.position.y, targetPos.z);
-        TurretHead.transform.LookAt(temp);
+        temp.position = new Vector3(targetPos.x, turretHead.position.y, targetPos.z);
+        turretHead.transform.LookAt(temp);
     }
 
     public virtual void ApplyDamage(int damage)
     {
-        LifePoint -=  damage;
-        if (LifePoint <= 0)
+        lifePoint -=  damage;
+        if (lifePoint <= 0)
         {
             Destruction();
         }

@@ -1,6 +1,4 @@
-﻿using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-using UnityEngine.AI;
+﻿using UnityEngine.AI;
 
 public abstract class BaseState {
 
@@ -16,7 +14,4 @@ public abstract class BaseState {
     public abstract void Execute();
     public abstract void Enter();
     public abstract void Exit();
-
-    public abstract void StateOnTriggerEnter(Collider other);
-    public abstract void StateOnTriggerExit(Collider other);
 }

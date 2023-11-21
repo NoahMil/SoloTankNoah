@@ -2,17 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Turret : Base_Controller
+public class Turret : BaseController
 {
 
-    [SerializeField] private GameObject _turretTarget;
-    [SerializeField] private float _detectionRange = 10f;
+    [FormerlySerializedAs("_turretTarget")] [SerializeField] private GameObject turretTarget;
+    [FormerlySerializedAs("_detectionRange")] [SerializeField] private float detectionRange = 10f;
     
 
     private void Update()
     {
-        RotateToTarget(_turretTarget.transform.position);
+        RotateToTarget(turretTarget.transform.position);
         if (CheckTargetDistance())
         {
             Fire();
@@ -22,7 +23,7 @@ public class Turret : Base_Controller
     private bool CheckTargetDistance()
     {
         RaycastHit hit;
-        if (Physics.Raycast(BulletSpawnPosition.position, BulletSpawnPosition.up, out hit, _detectionRange))
+        if (Physics.Raycast(bulletSpawnPosition.position, bulletSpawnPosition.up, out hit, detectionRange))
         {
             if (hit.collider.gameObject.CompareTag("Player"))
             {

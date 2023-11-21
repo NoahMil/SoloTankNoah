@@ -1,18 +1,34 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 
 public class ChasingState : BaseState {
-    
-    public ChasingState(MonsterAI monsterAI) : base(monsterAI) { }
 
+    private Transform _targetTransform;
+    
+    public ChasingState(MonsterAI monsterAI) : base(monsterAI) {
+        GameObject firstOrDefault = MonsterAI.playersInSightRange.FirstOrDefault();
+        if (!firstOrDefault) throw new Exception("Cannot find any player to chase");
+        _targetTransform = firstOrDefault.transform;
+    }
+    
     public override BaseState GetNextState() {
-        if (MonsterAI.nearestTarget == null) {
+        if (MonsterAI.playersInAttackRange.Count > 0) {
+            return new AttackingState(MonsterAI);
+        }
+        
+        if (MonsterAI.playersInSightRange.Count == 0)
+        {
             return new WanderingState(MonsterAI);
         }
         return null;
     }
 
-    public override void Execute() {
-        NavMeshAgent.SetDestination(MonsterAI.nearestTarget.transform.position);
+    public override void Execute()
+    {
+        var position = _targetTransform.position;
+        NavMeshAgent.SetDestination(position);
+        MonsterAI.RotateToTarget(position);
     }
 
     public override void Enter() {
@@ -20,19 +36,6 @@ public class ChasingState : BaseState {
     }
     public override void Exit()
     {
-        MonsterAI.rallyNearestWaypoint = true;
-    }
-
-    public override void StateOnTriggerEnter(Collider other)
-    {
-        return;
     }
     
-    public override void StateOnTriggerExit(Collider other)
-    { 
-        if (other.CompareTag("Player"))
-        {
-            MonsterAI.nearestTarget = null;
-        }
-    }
 }

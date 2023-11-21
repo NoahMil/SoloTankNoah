@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 public class WanderingState : BaseState
 {
@@ -10,12 +6,9 @@ public class WanderingState : BaseState
     {
     }
     
-    private Transform _turretTransform;
-
     public override BaseState GetNextState()
     {
-        if (MonsterAI.nearestTarget != null)
-        {
+        if (MonsterAI.playersInSightRange.Count > 0) {
             return new ChasingState(MonsterAI);
         }
         return null;
@@ -35,32 +28,9 @@ public class WanderingState : BaseState
     {
     }
 
-    public override void StateOnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            MonsterAI.nearestTarget = other.transform;
-        }
-    }
-    
-    public override void StateOnTriggerExit(Collider other)
-    {
-        return;
-    }
-
     private void SetNextWaypoint()
     {
-        if (MonsterAI.rallyNearestWaypoint)
-        {
-            foreach (Transform waypoints in Waypoints.List)
-            {
-                
-            }
-        }
-        else
-        {
-            Waypoints.CurrentIndex = (Waypoints.CurrentIndex + 1) % Waypoints.List.Count; 
-        }
+        Waypoints.CurrentIndex = (Waypoints.CurrentIndex + 1) % Waypoints.List.Count; 
     }
 
     private void MoveToWaypoint()

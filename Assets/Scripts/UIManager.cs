@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private Image _HealthBar;
-    [SerializeField] private PlayerDatas _playerDatas;
-    [SerializeField] private Bullet[] _BulletBar;
+    [FormerlySerializedAs("_HealthBar")] [SerializeField] private Image healthBar;
+    [FormerlySerializedAs("_playerDatas")] [SerializeField] private PlayerDatas playerDatas;
+    [FormerlySerializedAs("_BulletBar")] [SerializeField] private Bullet[] bulletBar;
 
 
     
@@ -27,16 +28,16 @@ public class UIManager : MonoBehaviour
     
     private void UpdateHealthBar()
     {
-        _HealthBar.fillAmount = _playerDatas.LifePoint / _playerDatas.MaxLifePoint;
+        healthBar.fillAmount = playerDatas.lifePoint / playerDatas.maxLifePoint;
     }
     
     private void UpdateBullet()
     {
-        for (int i = 0; i < _BulletBar.Length; i++)
+        for (int i = 0; i < bulletBar.Length; i++)
         {
-            if (_playerDatas.NbBullet <= _playerDatas.MaxBullet)
+            if (playerDatas.nbBullet <= playerDatas.maxBullet)
             {
-                Destroy(_BulletBar[i]);
+                Destroy(bulletBar[i]);
             }
         }
     }

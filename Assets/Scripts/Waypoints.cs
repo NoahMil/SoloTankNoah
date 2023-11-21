@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class Waypoints : MonoBehaviour
 {
-    public static List<Transform> List = new List<Transform>(); 
-
+    public static List<Transform> List = new List<Transform>();
     public static int CurrentIndex { get; set; }
 
     private void Awake()
@@ -16,4 +15,5 @@ public class Waypoints : MonoBehaviour
             List.Add(waypoint);
         }
     }
+    
 }
