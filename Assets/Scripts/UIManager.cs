@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [FormerlySerializedAs("_HealthBar")] [SerializeField] private Image healthBar;
-    [FormerlySerializedAs("_playerDatas")] [SerializeField] private PlayerDatas playerDatas;
-    [FormerlySerializedAs("_BulletBar")] [SerializeField] private Bullet[] bulletBar;
+    [SerializeField] private Image healthBar;
+    [SerializeField] private PlayerDatas playerDatas;
+    [SerializeField] private Bullet[] bulletBar;
 
 
     

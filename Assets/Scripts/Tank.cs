@@ -26,12 +26,13 @@ public class Tank : BaseController
         {
             playerData.lifePoint = playerData.maxLifePoint;
         }
+
         OnUpdateHealth?.Invoke();
     }
 
     private void Update()
     {
-       // AimToTarget();
+        // AimToTarget();
 
         Position = transform.position;
 
@@ -54,19 +55,10 @@ public class Tank : BaseController
         {
             transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
         }
+
         if (Input.GetMouseButton(0))
         {
             Fire();
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveCharacter();
-        }
-        
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            LoadGame();
         }
     }
 
@@ -82,7 +74,8 @@ public class Tank : BaseController
     }
     */
 
-    [FormerlySerializedAs("TurretTarget")] [SerializeField] private GameObject turretTarget;
+    [SerializeField] private GameObject turretTarget;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("BoostSpeed") && !isBoosted)
@@ -108,6 +101,7 @@ public class Tank : BaseController
         {
             Destruction();
         }
+
         OnUpdateHealth?.Invoke();
     }
 
@@ -122,26 +116,17 @@ public class Tank : BaseController
         playerData.lifePoint = memento.health;
     }
 
-    public void SaveCharacter()
-    {
-        SaveSystem.SaveCharacter(this, "save/file.sav");
-    }
 
-    private void LoadGame()
+    [Serializable]
+    public class CharacterMemento
     {
-        SaveSystem.LoadCharacter(this, "save/file.sav");
-    }
-}
+        public Vector3 position;
+        public float health;
 
-[Serializable]
-public class CharacterMemento
-{
-    public Vector3 position;
-    public float health;
-
-    public CharacterMemento(Vector3 position, float health)
-    {
-        this.position = position;
-        this.health = health;
+        public CharacterMemento(Vector3 position, float health)
+        {
+            this.position = position;
+            this.health = health;
+        }
     }
 }
