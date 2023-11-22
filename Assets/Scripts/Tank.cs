@@ -1,9 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Tank : BaseController
 {
@@ -14,10 +10,7 @@ public class Tank : BaseController
     [SerializeField] private float boostDuration = 0.1f;
     [SerializeField] private bool isBoosted = false;
 
-    public Vector3 Position { get; set; }
-
     public delegate void TankEvents();
-
     public static event TankEvents OnUpdateHealth;
 
     private void Start()
@@ -32,10 +25,6 @@ public class Tank : BaseController
 
     private void Update()
     {
-        // AimToTarget();
-
-        Position = transform.position;
-
         if (Input.GetKey(KeyCode.UpArrow))
         {
             transform.Translate(0f, 0f, speed * Time.deltaTime);
@@ -61,21 +50,7 @@ public class Tank : BaseController
             Fire();
         }
     }
-
-    /*
-    private void AimToTarget()
-    {
-        Ray tempRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(tempRay, out hit))
-        {
-            RotateToTarget(hit.point);
-        }
-    }
-    */
-
-    [SerializeField] private GameObject turretTarget;
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("BoostSpeed") && !isBoosted)
@@ -103,30 +78,5 @@ public class Tank : BaseController
         }
 
         OnUpdateHealth?.Invoke();
-    }
-
-    public CharacterMemento SaveToMemento()
-    {
-        return new CharacterMemento(transform.position, playerData.lifePoint);
-    }
-
-    public void RestoreFromMemento(CharacterMemento memento)
-    {
-        transform.position = memento.position;
-        playerData.lifePoint = memento.health;
-    }
-
-
-    [Serializable]
-    public class CharacterMemento
-    {
-        public Vector3 position;
-        public float health;
-
-        public CharacterMemento(Vector3 position, float health)
-        {
-            this.position = position;
-            this.health = health;
-        }
     }
 }

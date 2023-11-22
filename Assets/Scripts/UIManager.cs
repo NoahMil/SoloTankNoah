@@ -16,12 +16,16 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         Tank.OnUpdateHealth += UpdateHealthBar;
+        PlayerSaveData.OnUpdateHealth += UpdateHealthBar;
+
       //  Tank.OnUpdateHealth += UpdateBullet;
 
     }
     private void OnDisable()
     {
         Tank.OnUpdateHealth -= UpdateHealthBar;
+        PlayerSaveData.OnUpdateHealth -= UpdateHealthBar;
+
        // Tank.OnUpdateHealth -= UpdateBullet;
 
     }

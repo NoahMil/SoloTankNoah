@@ -12,8 +12,6 @@ using UnityEngine.Serialization;
     
     [Header("STATS TANK")] 
     public float maxLifePoint; 
-    public float lifePoint; 
-   // public float maxBullet; 
-   // public float nbBullet;
+    public float lifePoint;
 
 }

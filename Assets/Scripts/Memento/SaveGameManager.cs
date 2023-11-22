@@ -22,6 +22,8 @@ public static class SaveGameManager
         File.WriteAllText(dir + FileName, json);
 
         GUIUtility.systemCopyBuffer = dir;
+        
+        Debug.Log("Save effectuée !");
         return true;
     }
 
@@ -34,8 +36,9 @@ public static class SaveGameManager
         {
             string json = File.ReadAllText(fullPath);
             tempData = JsonUtility.FromJson<SaveSystem>(json);
-        }
+            Debug.Log("Load effectué !");
 
+        }
         else
         {
             Debug.Log("Save file does not exist!");
