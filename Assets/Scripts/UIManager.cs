@@ -16,13 +16,13 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         Tank.OnUpdateHealth += UpdateHealthBar;
-        Tank.OnUpdateHealth += UpdateBullet;
+      //  Tank.OnUpdateHealth += UpdateBullet;
 
     }
     private void OnDisable()
     {
         Tank.OnUpdateHealth -= UpdateHealthBar;
-        Tank.OnUpdateHealth -= UpdateBullet;
+       // Tank.OnUpdateHealth -= UpdateBullet;
 
     }
     
@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
         healthBar.fillAmount = playerDatas.lifePoint / playerDatas.maxLifePoint;
     }
     
+    /*
     private void UpdateBullet()
     {
         for (int i = 0; i < bulletBar.Length; i++)
@@ -41,6 +42,7 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+    */
 
     
     

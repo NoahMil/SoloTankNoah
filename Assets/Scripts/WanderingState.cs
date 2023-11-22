@@ -8,8 +8,13 @@ public class WanderingState : BaseState
     
     public override BaseState GetNextState()
     {
-        if (MonsterAI.playersInSightRange.Count > 0) {
+        if (MonsterAI.playersInSightRange.Count > 0 && !MonsterAI.injured) {
             return new ChasingState(MonsterAI);
+        }
+
+        if (MonsterAI.playersInFleeRange.Count > 0 && MonsterAI.injured)
+        {
+            return new FleeingState(MonsterAI);
         }
         return null;
     }
@@ -40,5 +45,8 @@ public class WanderingState : BaseState
             SetNextWaypoint(); 
         }
         NavMeshAgent.SetDestination(Waypoints.List[Waypoints.CurrentIndex].position);
+        MonsterAI.RotateToTarget(Waypoints.List[Waypoints.CurrentIndex].position);
     }
+    
+    
 }

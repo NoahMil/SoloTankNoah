@@ -13,13 +13,18 @@ public class ChasingState : BaseState {
     }
     
     public override BaseState GetNextState() {
-        if (MonsterAI.playersInAttackRange.Count > 0) {
+        if (MonsterAI.playersInAttackRange.Count > 0 && !MonsterAI.injured) {
             return new AttackingState(MonsterAI);
         }
         
-        if (MonsterAI.playersInSightRange.Count == 0)
+        if (MonsterAI.playersInSightRange.Count == 0 && !MonsterAI.injured)
         {
             return new WanderingState(MonsterAI);
+        }
+
+        if (MonsterAI.injured)
+        {
+            return new FleeingState(MonsterAI);
         }
         return null;
     }
@@ -32,10 +37,11 @@ public class ChasingState : BaseState {
     }
 
     public override void Enter() {
-        // Je me balade, lalala
+        
     }
     public override void Exit()
     {
     }
+    
     
 }

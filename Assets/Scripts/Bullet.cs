@@ -22,6 +22,11 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponentInParent<BaseController>().ApplyDamage(damage);
         }
         
+        if (collision.gameObject.GetComponentInParent<MonsterAI>() != null)
+        {
+            collision.gameObject.GetComponentInParent<MonsterAI>().ApplyDamage(damage);
+        }
+        
         Destroy(gameObject);
     }
 }

@@ -1,24 +1,26 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
-
 
 public class MonsterAI : MonoBehaviour {
     
     [Header("References")]
+    [SerializeField] private PlayerDatas playerData;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawnPosition;
     [SerializeField] private Transform turretHead;
     [SerializeField] private Transform temp;
     public List<GameObject> playersInAttackRange = new List<GameObject>();
     public List<GameObject> playersInSightRange = new List<GameObject>();
-
-    [Header("Parameters")]
-    private bool rallyNearestWaypoint;
-    private float fireCooldown;
-    private bool _isAlreadyFiring;
+    public List<GameObject> playersInFleeRange = new List<GameObject>();
 
     
+
+    [Header("Parameters")]
+    private int _lifePoint = 3;
+    private bool _rallyNearestWaypoint;
+    private float _fireCooldown;
+    private bool _isAlreadyFiring;
+    public bool injured = false;
     
     private Transform _nearestTarget;
     private bool _targetInRange;
@@ -82,6 +84,16 @@ public class MonsterAI : MonoBehaviour {
         playersInAttackRange.Remove(other.gameObject);
     }
     
+    public void EnterFleeCollider(Collider other) {
+        if (!other.CompareTag("Player")) return;
+        playersInFleeRange.Add(other.gameObject);
+    }
+    
+    public void ExitFleeCollider(Collider other) {
+        if (!other.CompareTag("Player") || !playersInFleeRange.Contains(other.gameObject)) return;
+        playersInFleeRange.Remove(other.gameObject);
+    }
+    
     public void Fire()
     {
         if (!_isAlreadyFiring)
@@ -102,4 +114,21 @@ public class MonsterAI : MonoBehaviour {
         turretHead.transform.LookAt(temp);
     }
     
+    public void ApplyDamage(int damage)
+    {
+        _lifePoint -=  damage;
+        if (_lifePoint <= 1)
+        {
+            injured = true;
+        }
+        if (_lifePoint <= 0)
+        {
+            Destruction();
+        }
+    }
+    
+    private void Destruction()
+    {
+        Destroy(gameObject);
+    }
 }
