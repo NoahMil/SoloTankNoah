@@ -7,8 +7,8 @@ using UnityEngine.Serialization;
 public class Turret : BaseController
 {
 
-    [FormerlySerializedAs("_turretTarget")] [SerializeField] private GameObject turretTarget;
-    [FormerlySerializedAs("_detectionRange")] [SerializeField] private float detectionRange = 10f;
+    [SerializeField] private GameObject turretTarget;
+    [SerializeField] private float detectionRange = 10f;
     
 
     private void Update()

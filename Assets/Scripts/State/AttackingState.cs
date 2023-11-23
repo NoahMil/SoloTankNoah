@@ -2,59 +2,60 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-
-public class AttackingState : BaseState
+namespace State
 {
-    private Transform _targetTransform;
-    private float _safetyDistance = 1f; 
-
-
-    public AttackingState(MonsterAI monsterAI) : base(monsterAI)
-    { 
-        GameObject firstOrDefault = MonsterAI.playersInAttackRange.FirstOrDefault();
-        if (!firstOrDefault) throw new Exception("Cannot find any player to attack");
-        _targetTransform = firstOrDefault.transform;
-    }
-    
-    public override BaseState GetNextState()
+    public class AttackingState : BaseState
     {
-        if (MonsterAI.playersInSightRange.Count > 0 && MonsterAI.playersInAttackRange.Count == 0 && !MonsterAI.injured)
+        private Transform _targetTransform;
+        private float _safetyDistance = 0.8f; 
+
+
+        public AttackingState(MonsterAI monsterAI) : base(monsterAI)
+        { 
+            GameObject firstOrDefault = MonsterAI.playersInAttackRange.FirstOrDefault();
+            if (!firstOrDefault) throw new Exception("Cannot find any player to attack");
+            _targetTransform = firstOrDefault.transform;
+        }
+    
+        public override BaseState GetNextState()
         {
-            return new ChasingState(MonsterAI);
-        }
+            if (MonsterAI.playersInSightRange.Count > 0 && MonsterAI.playersInAttackRange.Count == 0 && !MonsterAI.injured) // 
+            {
+                return new ChasingState(MonsterAI);                                                                         
+            }
         
-        if (MonsterAI.playersInSightRange.Count == 0 && MonsterAI.playersInAttackRange.Count == 0 && !MonsterAI.injured)
+            if (MonsterAI.playersInSightRange.Count == 0 && MonsterAI.playersInAttackRange.Count == 0 && !MonsterAI.injured)
+            {
+                return new WanderingState(MonsterAI);
+            }
+        
+            if (MonsterAI.injured)
+            {
+                return new FleeingState(MonsterAI);
+            }
+            return null;
+        }
+
+        public override void Execute()
         {
-            return new WanderingState(MonsterAI);
+            Vector3 targetPosition = _targetTransform.position;
+            Vector3 directionToTarget = targetPosition - MonsterAI.transform.position;
+
+            float distanceToTarget = directionToTarget.magnitude;
+
+            if (distanceToTarget > _safetyDistance) {
+                NavMeshAgent.SetDestination(targetPosition - directionToTarget.normalized * _safetyDistance);
+                MonsterAI.RotateToTarget(targetPosition);
+                MonsterAI.Fire();
+            }
         }
+        public override void Enter() {
         
-        if (MonsterAI.injured)
-        {
-            return new FleeingState(MonsterAI);
         }
-        return null;
-    }
-
-    public override void Execute()
-    {
-        Vector3 targetPosition = _targetTransform.position;
-        Vector3 directionToTarget = targetPosition - MonsterAI.transform.position;
-
-        float distanceToTarget = directionToTarget.magnitude;
-
-        if (distanceToTarget > _safetyDistance) {
-            NavMeshAgent.SetDestination(targetPosition - directionToTarget.normalized * _safetyDistance);
-            MonsterAI.RotateToTarget(targetPosition);
-            MonsterAI.Fire();
-
+        public override void Exit() {
+        
         }
-    }
-    public override void Enter() {
-        
-    }
-    public override void Exit() {
-        
-    }
     
     
+    }
 }

@@ -1,19 +1,19 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Waypoints : MonoBehaviour
+namespace State
 {
-    public static List<Transform> List = new List<Transform>();
-    public static int CurrentIndex { get; set; }
-
-    private void Awake()
+    public class Waypoints : MonoBehaviour
     {
-        foreach (Transform waypoint in transform)
+        public static List<Transform> List = new List<Transform>();
+        public static int CurrentIndex { get; set; }
+
+        private void Awake()
         {
-            List.Add(waypoint);
+            foreach (Transform waypoint in transform)
+            {
+                List.Add(waypoint);
+            }
         }
     }
-    
 }

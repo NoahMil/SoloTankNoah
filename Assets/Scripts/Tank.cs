@@ -8,7 +8,7 @@ public class Tank : BaseController
     [SerializeField] private float rotationSpeed = 0.1f;
     [SerializeField] private float boostSpeed = 0.1f;
     [SerializeField] private float boostDuration = 0.1f;
-    [SerializeField] private bool isBoosted = false;
+    private bool isBoosted = false;
 
     public delegate void TankEvents();
     public static event TankEvents OnUpdateHealth;
@@ -76,7 +76,6 @@ public class Tank : BaseController
         {
             Destruction();
         }
-
         OnUpdateHealth?.Invoke();
     }
 }

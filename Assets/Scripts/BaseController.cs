@@ -8,12 +8,12 @@ public class BaseController : MonoBehaviour
 {
         [SerializeField] protected AppDatas appData;
         [SerializeField] private PlayerDatas playerDatas;
-        [SerializeField] protected int lifePoint;
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] protected internal Transform bulletSpawnPosition;
         [SerializeField] private Transform turretHead;
         [SerializeField] private Transform temp;
-        public bool isAlreadyFiring;
+        private int lifePoint;
+        private bool isAlreadyFiring;
 
 
 

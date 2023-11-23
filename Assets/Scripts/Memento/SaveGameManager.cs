@@ -1,48 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
+using UnityEngine;
 
-public static class SaveGameManager
+namespace Memento
 {
-    public static SaveSystem CurrentSaveData = new SaveSystem();
-    public const string SaveDirectory = "/SaveData/";
-    public const string FileName = "SaveGame.sav";
-
-    public static bool SaveGame()
+    public static class SaveGameManager
     {
-        var dir = Application.streamingAssetsPath + SaveDirectory;
+        public static SaveSystem CurrentSaveData = new SaveSystem();
+        public const string SaveDirectory = "/SaveData/";
+        public const string FileName = "SaveGame.sav";
 
-        if (!Directory.Exists(dir))
+        public static void SaveGame()
         {
-            Directory.CreateDirectory(dir);
-        }
+            var dir = Application.streamingAssetsPath + SaveDirectory;
 
-        string json = JsonUtility.ToJson(CurrentSaveData, true);
-        File.WriteAllText(dir + FileName, json);
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
 
-        GUIUtility.systemCopyBuffer = dir;
+            string json = JsonUtility.ToJson(CurrentSaveData, true);
+            File.WriteAllText(dir + FileName, json);
+
+            GUIUtility.systemCopyBuffer = dir;
         
-        Debug.Log("Save effectuée !");
-        return true;
-    }
-
-    public static void LoadGame()
-    {
-        string fullPath = Application.streamingAssetsPath + SaveDirectory + FileName;
-        SaveSystem tempData = new SaveSystem();
-
-        if (File.Exists(fullPath))
-        {
-            string json = File.ReadAllText(fullPath);
-            tempData = JsonUtility.FromJson<SaveSystem>(json);
-            Debug.Log("Load effectué !");
-
+            Debug.Log("Save effectuée !");
         }
-        else
+
+        public static void LoadGame()
         {
-            Debug.Log("Save file does not exist!");
+            string fullPath = Application.streamingAssetsPath + SaveDirectory + FileName;
+            SaveSystem tempData = new SaveSystem();
+
+            if (File.Exists(fullPath))
+            {
+                string json = File.ReadAllText(fullPath);
+                tempData = JsonUtility.FromJson<SaveSystem>(json);
+                Debug.Log("Load effectué !");
+
+            }
+            else
+            {
+                Debug.Log("Save file does not exist!");
+            }
+            CurrentSaveData = tempData;
         }
-        CurrentSaveData = tempData;
     }
 }

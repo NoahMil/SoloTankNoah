@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
+using Memento;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -16,7 +13,7 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         Tank.OnUpdateHealth += UpdateHealthBar;
-        PlayerSaveData.OnUpdateHealth += UpdateHealthBar;
+        SaveData.OnUpdateHealth += UpdateHealthBar;
 
       //  Tank.OnUpdateHealth += UpdateBullet;
 
@@ -24,7 +21,7 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         Tank.OnUpdateHealth -= UpdateHealthBar;
-        PlayerSaveData.OnUpdateHealth -= UpdateHealthBar;
+        SaveData.OnUpdateHealth -= UpdateHealthBar;
 
        // Tank.OnUpdateHealth -= UpdateBullet;
 
